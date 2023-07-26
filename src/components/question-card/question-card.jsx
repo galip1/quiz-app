@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./question-card.css";
 
 const QuestionCard = ({
@@ -10,14 +10,19 @@ const QuestionCard = ({
   modal,
   setModal,
 }) => {
+  const [timer, setTimer] = useState(30);
+
   const approveChoice = (e) => {
     console.log(e.currentTarget.value);
-    const checkAnswer = e.currentTarget.value;
+    const checkAnswer =
+      e.currentTarget.value == questionsData[count]?.correct.answer;
+    console.log(checkAnswer);
   };
 
   return (
     <div className="question-card">
-      <div>
+      <div className="question-card-timer">{timer}</div>
+      <div className="question-card-title">
         {count + 1}/10 - {questionsData[count]?.question}
       </div>
       {questionsData[count]?.answers?.map((answer, i) => (
