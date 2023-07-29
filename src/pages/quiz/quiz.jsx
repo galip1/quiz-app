@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import * as api from "../../api/api";
 import QuestionCard from "../../components/question-card/question-card";
 import Modal from "../../components/modal/modal";
+import Loading from "../../components/loading/loading";
 
 const Quiz = () => {
   const { difficulty, amount } = useParams();
@@ -11,28 +12,44 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
   const [count, setCount] = useState(0);
   const [modal, setModal] = useState(false);
-  useEffect(() => {
-    const getData = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const getData = async () => {
+    setLoading(true);
+    try {
       const data = await api.fetchQuizData(difficulty, amount);
       setQuestionsData(data);
-    };
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
-  console.log(questionsData);
+
   return (
     <div className="quiz">
-      {modal ? (
-        <Modal score={score} />
+      {loading ? (
+        <Loading />
       ) : (
-        <QuestionCard
-          questionsData={questionsData}
-          count={count}
-          setCount={setCount}
-          score={score}
-          modal={modal}
-          setModal={setModal}
-          setScore={setScore}
-        />
+        <>
+          {modal ? (
+            <Modal score={score} />
+          ) : (
+            <QuestionCard
+              questionsData={questionsData}
+              count={count}
+              setCount={setCount}
+              score={score}
+              modal={modal}
+              setModal={setModal}
+              setScore={setScore}
+            />
+          )}{" "}
+        </>
       )}
     </div>
   );

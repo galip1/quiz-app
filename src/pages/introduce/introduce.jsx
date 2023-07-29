@@ -17,7 +17,7 @@ const Introduce = () => {
     <div className="introduce">
       <div className="introduce-container">
         <img
-          src="https://img.freepik.com/premium-vector/quiz-text-speech-symbols-concept_149152-641.jpg"
+          src="https://cdn.pixabay.com/photo/2017/02/17/15/25/quiz-2074324_1280.png"
           alt=""
           width="100"
           height="100"
