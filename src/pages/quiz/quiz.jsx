@@ -19,6 +19,7 @@ const Quiz = () => {
     try {
       const data = await api.fetchQuizData(difficulty, amount);
       setQuestionsData(data);
+      console.log(data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -48,7 +49,7 @@ const Quiz = () => {
               setModal={setModal}
               setScore={setScore}
             />
-          )}{" "}
+          )}
         </>
       )}
     </div>
