@@ -11,6 +11,7 @@ const QuestionCard = ({
   setModal,
 }) => {
   const [timer, setTimer] = useState(30);
+  const [isCorrect, setIsCorrect] = useState(null);
 
   const approveChoice = (e) => {
     console.log(e.currentTarget.value);
@@ -20,9 +21,15 @@ const QuestionCard = ({
     if (checkAnswer) {
       setScore(score + 100);
     }
-    setCount(count + 1);
-    if (count == 9) setModal(true);
-    setTimer(30);
+    setIsCorrect(checkAnswer);
+
+    // Diğer soruya geçiş için 2 saniye bekleyin ve sonra state'i sıfırlayın
+    setTimeout(() => {
+      setIsCorrect(null);
+      setCount(count + 1);
+      if (count == 9) setModal(true);
+      setTimer(30);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -49,7 +56,20 @@ const QuestionCard = ({
         {count + 1}/10 - {questionsData[count]?.question}
       </div>
       {questionsData[count]?.answers?.map((answer, i) => (
-        <button key={i} onClick={approveChoice} value={answer}>
+        <button
+          key={i}
+          onClick={approveChoice}
+          value={answer}
+          className={
+            isCorrect === true &&
+            answer === questionsData[count]?.correct_answer
+              ? "correct-answer"
+              : isCorrect === false &&
+                answer === questionsData[count]?.correct_answer
+              ? "wrong-answer"
+              : ""
+          }
+        >
           {answer}
         </button>
       ))}
