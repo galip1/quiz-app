@@ -12,22 +12,20 @@ const QuestionCard = ({
 }) => {
   const [timer, setTimer] = useState(30);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [selectedChoice, setSelectedChoice] = useState(null);
 
   const approveChoice = (e) => {
-    console.log(e.currentTarget.value);
-    const checkAnswer =
-      e.currentTarget.value == questionsData[count]?.correct_answer;
-    console.log(checkAnswer);
-    if (checkAnswer) {
-      setScore(score + 100);
-    }
+    const selectedAnswer = e.currentTarget.value;
+    const checkAnswer = selectedAnswer === questionsData[count]?.correct_answer;
     setIsCorrect(checkAnswer);
+    setSelectedChoice(selectedAnswer);
 
     // Diğer soruya geçiş için 2 saniye bekleyin ve sonra state'i sıfırlayın
     setTimeout(() => {
       setIsCorrect(null);
+      setSelectedChoice(null);
       setCount(count + 1);
-      if (count == 9) setModal(true);
+      if (count === 9) setModal(true);
       setTimer(30);
     }, 2000);
   };
@@ -37,7 +35,7 @@ const QuestionCard = ({
       if (timer > 0) {
         setTimer(timer - 1);
       }
-      if (timer == 0 && count < 30) {
+      if (timer === 0 && count < 30) {
         setCount(count + 1);
         setTimer(30);
       } else if (count >= 30) {
@@ -55,24 +53,37 @@ const QuestionCard = ({
       <div className="question-card-title">
         {count + 1}/10 - {questionsData[count]?.question}
       </div>
-      {questionsData[count]?.answers?.map((answer, i) => (
-        <button
-          key={i}
-          onClick={approveChoice}
-          value={answer}
-          className={
-            isCorrect === true &&
-            answer === questionsData[count]?.correct_answer
-              ? "correct-answer"
-              : isCorrect === false &&
-                answer === questionsData[count]?.correct_answer
-              ? "wrong-answer"
-              : ""
-          }
-        >
-          {answer}
-        </button>
-      ))}
+      {questionsData[count]?.answers?.map((answer, i) => {
+        const isCorrectAnswer = answer === questionsData[count]?.correct_answer;
+        const isWrongChoice = selectedChoice === answer && !isCorrectAnswer;
+
+        let className = "";
+        if (isCorrectAnswer && selectedChoice) {
+          className = "correct-answer";
+        } else if (isWrongChoice) {
+          className = "wrong-answer";
+        }
+
+        return (
+          <button
+            key={i}
+            onClick={approveChoice}
+            value={answer}
+            className={className}
+            disabled={selectedChoice !== null} // Kullanıcının bir şık seçtikten sonra diğer şıklara tıklanmasını engellemek için
+          >
+            {answer}
+            {/* {isWrongChoice && (
+              <span className="correct-answer-msg">
+                Doğru Cevap: {questionsData[count]?.correct_answer}
+              </span>
+            )}
+            {isCorrectAnswer && selectedChoice && (
+              <span className="correct-answer-msg">Doğru Cevap</span>
+            )} */}
+          </button>
+        );
+      })}
     </div>
   );
 };

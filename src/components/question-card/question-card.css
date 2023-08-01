@@ -19,6 +19,8 @@
   cursor: pointer;
 }
 .question-card button:hover {
+  background-color: rgb(71, 66, 66);
+  color: white;
 }
 
 .question-card-timer {
@@ -43,3 +45,17 @@
   background-color: red;
   color: white;
 }
+/* 
+.correct-answer-msg {
+  color: green;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+} */
