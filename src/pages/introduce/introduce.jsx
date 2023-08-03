@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import "./introduce.css";
 import Dropdown from "../../components/dropdown/dropdown";
 import { useNavigate } from "react-router-dom";
+
 const Introduce = () => {
   const difficulty = ["easy", "medium", "hard"];
-  const [difficultyChange, setDifficultyChange] = useState("");
+  const [difficultyChange, setDifficultyChange] = useState("Easy");
   const navigate = useNavigate();
+
   const totalQuestions = 10;
+
   const startQuiz = () => {
     if (difficultyChange) {
       navigate(`/quiz/${difficultyChange}/${totalQuestions}`);
