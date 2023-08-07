@@ -9,6 +9,12 @@ const QuestionCard = ({
   setCount,
   modal,
   setModal,
+  correctAnswers,
+  setCorrectAnswers,
+  incorrectAnswers,
+  setIncorrectAnswers,
+  blankAnswers,
+  setBlankAnswers,
 }) => {
   const [timer, setTimer] = useState(30);
   const [isCorrect, setIsCorrect] = useState(null);
@@ -20,6 +26,15 @@ const QuestionCard = ({
     setIsCorrect(checkAnswer);
     setSelectedChoice(selectedAnswer);
 
+    // Update correct, incorrect, and blank answers based on user's choice
+    if (checkAnswer) {
+      setCorrectAnswers(correctAnswers + 1);
+    } else if (selectedChoice !== null) {
+      setIncorrectAnswers(incorrectAnswers + 1);
+    } else {
+      setBlankAnswers(blankAnswers + 1);
+    }
+
     // Diğer soruya geçiş için 2 saniye bekleyin ve sonra state'i sıfırlayın
     setTimeout(() => {
       setIsCorrect(null);
@@ -29,7 +44,6 @@ const QuestionCard = ({
       setTimer(30);
     }, 2000);
   };
-
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer > 0) {

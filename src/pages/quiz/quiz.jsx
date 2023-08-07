@@ -13,6 +13,9 @@ const Quiz = () => {
   const [count, setCount] = useState(0);
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+  const [blankAnswers, setBlankAnswers] = useState(0);
 
   const getData = async () => {
     setLoading(true);
@@ -48,6 +51,12 @@ const Quiz = () => {
               modal={modal}
               setModal={setModal}
               setScore={setScore}
+              correctAnswers={correctAnswers}
+              setCorrectAnswers={setCorrectAnswers}
+              incorrectAnswers={incorrectAnswers}
+              setIncorrectAnswers={setIncorrectAnswers}
+              blankAnswers={blankAnswers}
+              setBlankAnswers={setBlankAnswers}
             />
           )}
         </>
